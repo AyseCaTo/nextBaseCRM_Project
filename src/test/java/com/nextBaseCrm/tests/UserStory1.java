@@ -4,6 +4,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -56,6 +58,22 @@ public class UserStory1 {
             driver.findElement(By.xpath("//input[@name='USER_LOGIN']")).clear();
         }
 
+    }
+
+    @Test
+    public void test2() throws InterruptedException {
+        driver.findElement(By.xpath("//a[@class='login-link-forgot-pass']")).click();
+        Thread.sleep(3000);
+
+        String expectedTitle = "Get Password";
+        String actualTitle = driver.getTitle();
+
+        Assert.assertEquals(expectedTitle, actualTitle, "It's up to you");
+    }
+
+    @AfterClass
+    public void teardown(){
+        driver.close();
     }
 
 }
