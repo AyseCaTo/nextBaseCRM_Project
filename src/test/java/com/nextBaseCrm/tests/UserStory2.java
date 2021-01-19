@@ -17,7 +17,7 @@ public class UserStory2 {
     WebDriver driver;
 
     @BeforeClass
-    public void setupClass(){ //per-condition
+    public void setupClass(){ //pre-condition
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -31,14 +31,20 @@ public class UserStory2 {
 
     @Test
     public void test1() throws InterruptedException {
-        driver.findElement(By.xpath("//span[@id='feed-add-post-form-tab-message']")).click();
+        driver.findElement(By.xpath("//span[@id='feed-add-post-form-tab-message']")).click(); // message button
         Thread.sleep(2000);
+        //iframe
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@class='bx-editor-iframe']")));
+        driver.findElement(By.xpath("/html/body")).sendKeys("Hello everybody!!!");
+        driver.switchTo().parentFrame();
+
+
         WebElement sendButton = driver.findElement(By.xpath("//button[@id='blog-submit-button-save']"));
-        Assert.assertTrue(sendButton.isDisplayed());
+        sendButton.click();
+        Thread.sleep(3000);
+        //driver.findElement(By.xpath("//button[@id='blog-submit-button-cancel']")).click();
         Thread.sleep(2000);
-        driver.findElement(By.xpath("//button[@id='blog-submit-button-cancel']")).click();
-        Thread.sleep(2000);
-        Assert.assertFalse(sendButton.isDisplayed());
+        //Assert.assertFalse(sendButton.isDisplayed(), "You are able send message!");
     }
 
     @Test
